@@ -15,7 +15,7 @@ const displayPhone = phones => {
         const div = document.createElement('div');
         div.classList.add('col')
         div.innerHTML = `
-        <div class="card p-4 mb-3 w-md-50 shadow border-0">
+        <div class="card w-100 p-4 mb-3 w-md-50 shadow border-0">
             <div class="px-4 pt-3 rounded">
         <img src="${phone.image}" class="card-img-top img-fluid" alt="...">
         </div>
@@ -25,7 +25,6 @@ const displayPhone = phones => {
           <a href="#showDetails" class="text-none">
           <button onclick="loadDetails('${phone.slug}')" class="bg-primary border-0 text-white py-1 px-4  rounded ">Details</button>
           </a>
-          
         </div>
       </div>
         `
@@ -42,9 +41,22 @@ const loadDetails = async (id) => {
 }
 
 const displayDetails = details => {
+    const allDetails = details.others;
+    console.log(allDetails)
+    const detailFunction = (property) => {
+        if (!allDetails && allDetails.length == 0) {
+            return 'Not available'
+        }
+
+        else {
+            return allDetails + "." + property;
+        }
+    }
+    console.log(detailFunction())
 
     const getSensors = details.mainFeatures.sensors;
     const [sens1, sens2, sens3, sens4, sens5, sens6] = getSensors;
+
     const showDetails = document.getElementById('showDetails');
     showDetails.innerHTML = `
         <div class="card  mb-3 d-inline">
@@ -81,15 +93,19 @@ const displayDetails = details => {
                                 <td>Sensor</td>
                                 <td>${sens1}, ${sens2}, ${sens3}, ${sens4}, ${sens5}, ${sens6}, </td>
                             </tr>
-                            
-                            </table>
-                        </div>
+
+                            <tr>
+                                <th>Others</th>
+                                <td>${detailFunction(Bluetooth)}, ${detailFunction(GPS)}, ${detailFunction(NFC)}, ${detailFunction(Radio)}, ${detailFunction(USB)}, ${detailFunction(WLAN)}</td>
+                            </tr >
+                            </table >
+                        </div >
                        
                     
-                </div>
-        </div>
-    </div>
-        
+                </div >
+        </div >
+    </div >
+
     `
 }
 
