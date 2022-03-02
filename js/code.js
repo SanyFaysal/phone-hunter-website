@@ -1,7 +1,10 @@
 
 
 const loadPhone = async () => {
-    const searchText = document.getElementById('searchText').value;
+    const search = document.getElementById('searchText');
+    const searchText = search.value;
+    search.value = '';
+
     const url = ` https://openapi.programming-hero.com/api/phones?search=${searchText}`;
     const res = await fetch(url);
     const data = await res.json();
@@ -10,6 +13,7 @@ const loadPhone = async () => {
 const displayPhone = phones => {
     // console.log(phones)
     const container = document.getElementById('displayPhones');
+    container.textContent = '';
     phones.forEach(phone => {
         // console.log(phone)
         const div = document.createElement('div');
@@ -41,19 +45,20 @@ const loadDetails = async (id) => {
 }
 
 const displayDetails = details => {
-    const allDetails = details.others;
-    console.log(allDetails)
-    const detailFunction = (property) => {
-        if (!allDetails && allDetails.length == 0) {
-            return 'Not available'
+    console.log(details.others)
+
+    const handleOthers = () => {
+
+        if (!details.others) {
+            return "Not available";
         }
 
-        else {
-            return allDetails + "." + property;
+        for (const feature in details.others) {
+            return (typeof (feature) == 'string' ? details.others : 'no');
         }
+
     }
-    console.log(detailFunction())
-
+    console.log(handleOthers().Bluetooth)
     const getSensors = details.mainFeatures.sensors;
     const [sens1, sens2, sens3, sens4, sens5, sens6] = getSensors;
 
@@ -95,9 +100,42 @@ const displayDetails = details => {
                             </tr>
 
                             <tr>
-                                <th>Others</th>
-                                <td>${detailFunction(Bluetooth)}, ${detailFunction(GPS)}, ${detailFunction(NFC)}, ${detailFunction(Radio)}, ${detailFunction(USB)}, ${detailFunction(WLAN)}</td>
+                               <th>Others</th> 
+                               <td>${handleOthers()}</td> 
                             </tr >
+                            <tr>
+                                <td>Bluetooth</td>
+                                <td>${handleOthers().Bluetooth ? handleOthers().Bluetooth : 'no'}</td>
+                            </tr >
+                          
+                            <tr>
+                                <td>GPS</td>
+                                <td>${handleOthers().GPS ? handleOthers().GPS : 'no'}</td>
+                            </tr >
+                          
+                            <tr>
+                                <td>NFC</td>
+                                <td>${handleOthers().NFC ? handleOthers().NFC : 'no'}</td>
+                            </tr >
+                          
+                            <tr>
+                                <td>Radio</td>
+                                <td>${handleOthers().Radio ? handleOthers().Radio : 'no'}</td>
+                            </tr >
+                          
+                            <tr>
+                                <td>USB</td>
+                                <td>${handleOthers().USB ? handleOthers().USB : 'no'}</td>
+                            </tr >
+                          
+                            <tr>
+                                <td>WLAN</td>
+                                <td>${handleOthers().WLAN ? handleOthers().WLAN : 'no'}</td>
+                            </tr >
+                          
+                            
+                        
+    
                             </table >
                         </div >
                        
