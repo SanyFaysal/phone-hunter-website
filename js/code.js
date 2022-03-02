@@ -1,10 +1,8 @@
-const container = document.getElementById('error');
 const spinner = document.getElementById('spinner');
-
-const toggle = (display) => {
-    spinner.style.display = display;
+const toggle = (displaySpinner) => {
+    spinner.style.display = displaySpinner;
 }
-toggle('none');
+toggle('none', 'inline');
 const loadPhone = async () => {
     toggle('inline');
     const search = document.getElementById('searchText');
@@ -19,6 +17,7 @@ const loadPhone = async () => {
 
     }
     else {
+        const container = document.getElementById('error');
         const div = document.createElement('div');
         div.innerHTML = `
         <div class="d-flex justify-content-center text-secondary">
@@ -26,18 +25,17 @@ const loadPhone = async () => {
         </div>
         `;
         container.appendChild(div);
+        toggle('none');
     }
 
 }
 const displayPhone = phones => {
-    // console.log(phones)
     toggle('none')
     const error = document.getElementById('error');
     error.textContent = '';
     const container = document.getElementById('displayPhones');
     container.textContent = "";
     phones.forEach(phone => {
-        // console.log(phone)
         const div = document.createElement('div');
         div.classList.add('col')
         div.innerHTML = `
@@ -68,27 +66,25 @@ const loadDetails = async (id) => {
 }
 
 const displayDetails = details => {
-    console.log(details.others)
-
     const handleOthers = () => {
-
         if (!details.others) {
             return "Not available";
         }
-
         for (const feature in details.others) {
-            return (typeof (feature) == 'string' ? details.others : 'no');
+            return (typeof (feature) == 'string' ? details.others : 'Not available');
         }
-
     }
 
     const getSensors = details.mainFeatures.sensors;
     const [sens1, sens2, sens3, sens4, sens5, sens6] = getSensors;
 
     const showDetails = document.getElementById('showDetails');
-    showDetails.textContent = "";
-    showDetails.innerHTML = `
-        <div class="card  mb-3 d-inline">
+    showDetails.textContent = '';
+    const div = document.createElement('div');
+    div.classList.add('d-flex');
+    div.classList.add('justify-content-center');
+    div.innerHTML = `
+        <div class="card mb-3 d-inline">
             <div class="row g-0 mt-3">
                     <div class="col-md-12 col-xl-12 d-flex flex-column justify-content-center ">
                     <div class="mx-auto">
@@ -129,32 +125,32 @@ const displayDetails = details => {
                             </tr >
                             <tr>
                                 <td>Bluetooth</td>
-                                <td>${handleOthers().Bluetooth ? handleOthers().Bluetooth : 'no'}</td>
+                                <td>${handleOthers().Bluetooth ? handleOthers().Bluetooth : 'No'}</td>
                             </tr >
                           
                             <tr>
                                 <td>GPS</td>
-                                <td>${handleOthers().GPS ? handleOthers().GPS : 'no'}</td>
+                                <td>${handleOthers().GPS ? handleOthers().GPS : 'No'}</td>
                             </tr >
                           
                             <tr>
                                 <td>NFC</td>
-                                <td>${handleOthers().NFC ? handleOthers().NFC : 'no'}</td>
+                                <td>${handleOthers().NFC ? handleOthers().NFC : 'No'}</td>
                             </tr >
                           
                             <tr>
                                 <td>Radio</td>
-                                <td>${handleOthers().Radio ? handleOthers().Radio : 'no'}</td>
+                                <td>${handleOthers().Radio ? handleOthers().Radio : 'No'}</td>
                             </tr >
                           
                             <tr>
                                 <td>USB</td>
-                                <td>${handleOthers().USB ? handleOthers().USB : 'no'}</td>
+                                <td>${handleOthers().USB ? handleOthers().USB : 'No'}</td>
                             </tr >
                           
                             <tr>
                                 <td>WLAN</td>
-                                <td>${handleOthers().WLAN ? handleOthers().WLAN : 'no'}</td>
+                                <td>${handleOthers().WLAN ? handleOthers().WLAN : 'No'}</td>
                             </tr >
                           
                             
@@ -167,7 +163,7 @@ const displayDetails = details => {
                 </div >
         </div >
     </div >
-
-    `
+    `;
+    showDetails.appendChild(div)
 }
 
