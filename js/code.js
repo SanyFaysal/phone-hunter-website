@@ -1,17 +1,24 @@
+const container = document.getElementById('error');
+const spinner = document.getElementById('spinner');
 
-
+const toggle = (display) => {
+    spinner.style.display = display;
+}
+toggle('none');
 const loadPhone = async () => {
+    toggle('inline');
     const search = document.getElementById('searchText');
     const searchText = search.value;
     search.value = '';
+
     if (searchText == "oppo" || searchText == "huawei" || searchText == "apple") {
         const url = ` https://openapi.programming-hero.com/api/phones?search=${searchText}`;
         const res = await fetch(url);
         const data = await res.json();
         displayPhone(data.data)
+
     }
     else {
-        const container = document.getElementById('error');
         const div = document.createElement('div');
         div.innerHTML = `
         <div class="d-flex justify-content-center text-secondary">
@@ -24,6 +31,7 @@ const loadPhone = async () => {
 }
 const displayPhone = phones => {
     // console.log(phones)
+    toggle('none')
     const error = document.getElementById('error');
     error.textContent = '';
     const container = document.getElementById('displayPhones');
@@ -73,11 +81,12 @@ const displayDetails = details => {
         }
 
     }
-    console.log(handleOthers().Bluetooth)
+
     const getSensors = details.mainFeatures.sensors;
     const [sens1, sens2, sens3, sens4, sens5, sens6] = getSensors;
 
     const showDetails = document.getElementById('showDetails');
+    showDetails.textContent = "";
     showDetails.innerHTML = `
         <div class="card  mb-3 d-inline">
             <div class="row g-0 mt-3">
@@ -98,15 +107,15 @@ const displayDetails = details => {
                             </tr>
                             <tr>
                                 <td>Chipset </td>
-                                <td>${details.mainFeatures.chipSet}</td>
+                                <td>${details.mainFeatures.chipSet ? details.mainFeatures.chipSet : 'Not available'}</td>
                             </tr>
                             <tr>
                                 <td>Memory </td>
-                                <td>${details.mainFeatures.memory}</td>
+                                <td>${details.mainFeatures.memory ? details.mainFeatures.memory : 'Not available'}</td>
                             </tr>
                             <tr>
                                 <td>Display Size </td>
-                                <td>${details.mainFeatures.displaySize}</td>
+                                <td>${details.mainFeatures.displaySize ? details.mainFeatures.displaySize : 'Not available'}</td>
                             </tr>
                             
                             <tr>
