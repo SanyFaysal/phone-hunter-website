@@ -4,25 +4,39 @@ const loadPhone = async () => {
     const search = document.getElementById('searchText');
     const searchText = search.value;
     search.value = '';
+    if (searchText == "oppo" || searchText == "huawei" || searchText == "apple") {
+        const url = ` https://openapi.programming-hero.com/api/phones?search=${searchText}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        displayPhone(data.data)
+    }
+    else {
+        const container = document.getElementById('error');
+        const div = document.createElement('div');
+        div.innerHTML = `
+        <div class="d-flex justify-content-center text-secondary">
+        <h5>No result found</h5>
+        </div>
+        `;
+        container.appendChild(div);
+    }
 
-    const url = ` https://openapi.programming-hero.com/api/phones?search=${searchText}`;
-    const res = await fetch(url);
-    const data = await res.json();
-    displayPhone(data.data)
 }
 const displayPhone = phones => {
     // console.log(phones)
+    const error = document.getElementById('error');
+    error.textContent = '';
     const container = document.getElementById('displayPhones');
-    container.textContent = '';
+    container.textContent = "";
     phones.forEach(phone => {
         // console.log(phone)
         const div = document.createElement('div');
         div.classList.add('col')
         div.innerHTML = `
-        <div class="card w-100 p-4 mb-3 w-md-50 shadow border-0">
+    <div class="card w-100 p-4 mb-3 w-md-50 shadow border-0 rounded-3 " >
             <div class="px-4 pt-3 rounded">
-        <img src="${phone.image}" class="card-img-top img-fluid" alt="...">
-        </div>
+                  <img src="${phone.image}" class="card-img-top img-fluid" alt="...">
+            </div>
         <div class="card-body p-4">
           <h5 class="card-title pt-0 mt-0">${phone.phone_name}</h5>
           <p class="card-text">${phone.brand}</p>
@@ -31,8 +45,9 @@ const displayPhone = phones => {
           </a>
         </div>
       </div>
-        `
+    `;
         container.appendChild(div)
+
     })
 }
 
@@ -101,7 +116,7 @@ const displayDetails = details => {
 
                             <tr>
                                <th>Others</th> 
-                               <td>${handleOthers()}</td> 
+                               <td>${handleOthers() == "Not available" ? handleOthers() : ''}</td> 
                             </tr >
                             <tr>
                                 <td>Bluetooth</td>
