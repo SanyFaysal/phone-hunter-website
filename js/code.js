@@ -12,7 +12,7 @@ const loadPhone = async () => {
     const searchText = search.value;
     search.value = '';
     // search error handle 
-    if (searchText == "oppo" || searchText == "huawei" || searchText == "apple" || searchText == "samsung") {
+    if (searchText == "oppo" || searchText == "huawei" || searchText == "iphone" || searchText == "apple" || searchText == "samsung") {
         // load result 
         const url = ` https://openapi.programming-hero.com/api/phones?search=${searchText}`;
         const res = await fetch(url);
